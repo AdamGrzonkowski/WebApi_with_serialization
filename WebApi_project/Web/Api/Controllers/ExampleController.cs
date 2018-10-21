@@ -5,10 +5,10 @@ using System.Web.Http;
 
 namespace Api.Controllers
 {
-    [Route("api")]
+    [RoutePrefix("api")]
     public class ExampleController : ApiController
     {
-        private readonly ILog _logger = LogManager.GetLogger(typeof(ExampleController));
+        private static readonly ILog _logger = LogManager.GetLogger(typeof(ExampleController));
 
         /// <summary>
         /// This endpoint receives a collection of serialized JSON models
