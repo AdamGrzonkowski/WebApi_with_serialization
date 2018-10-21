@@ -1,4 +1,5 @@
-﻿using log4net;
+﻿using Domain.Services.Interfaces;
+using log4net;
 using System;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -10,6 +11,16 @@ namespace Api.Controllers
     {
         private static readonly ILog _logger = LogManager.GetLogger(typeof(ExampleController));
 
+        private readonly IRequestRepository _repo;
+
+        /// <summary>
+        /// Public constructor.
+        /// </summary>
+        /// <param name="repo"></param>
+        public ExampleController(IRequestRepository repo)
+        {
+            _repo = repo;
+        }
         /// <summary>
         /// This endpoint receives a collection of serialized JSON models
         /// and stores them in a database created using automated database migrations.
@@ -31,6 +42,7 @@ namespace Api.Controllers
         [Route("jobs/saveFiles")]
         public async Task<IHttpActionResult> SaveDbRecordsToFile()
         {
+            var test = await _repo.GetAll();
             _logger.Fatal("NotImplemented!");
             throw new NotImplementedException();
         }
