@@ -13,11 +13,11 @@ namespace Application.Services.Base
             _unitOfWork = uow;
         }
 
-        public async Task SaveChangesAsync()
+        public async Task<int> SaveChangesAsync()
         {
             try
             {
-                await _unitOfWork.CommitAsync().ConfigureAwait(false);
+                return await _unitOfWork.CommitAsync().ConfigureAwait(false);
             }
             catch (Exception)
             {

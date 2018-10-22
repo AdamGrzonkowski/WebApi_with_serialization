@@ -12,16 +12,26 @@ using System.Xml;
 
 namespace Application.Services
 {
-    public class XmlService : BaseBl, IXmlService
+    public class RequestsService : BaseBl, IRequestsService
     {
         private readonly IRequestRepository _repo;
 
-        public XmlService(IUnitOfWork uow, IRequestRepository repo) : base(uow)
+        public RequestsService(IUnitOfWork uow, IRequestRepository repo) : base(uow)
         {
             _repo = repo;
         }
 
-        public async Task WriteRequestsToFiles(string directoryToSave)
+        public async Task<int> SaveRequestsToDbAsync(IEnumerable<Request> requests)
+        {
+            foreach (Request req in requests)
+            {
+                _repo.Insert(req);
+            }
+
+            return await SaveChangesAsync().ConfigureAwait(false);
+        }
+
+        public async Task WriteRequestsToFilesAsync(string directoryToSave)
         {
             List<Request> requests = await _repo.GetAllAsync().ConfigureAwait(false);
 
@@ -30,13 +40,13 @@ namespace Application.Services
                 .Select(grp => grp.ToList())
                 .ToList();
 
-            // run in parallel creation of files - one thread for one date
+            // run creation of files in parallel - one thread for one date/file
             var tasks = new List<Task>();
             foreach (var list in groupedRequests)
             {
                 tasks.Add(WriteToFile(list, directoryToSave));
             }
-            await Task.WhenAll(tasks);
+            await Task.WhenAll(tasks).ConfigureAwait(false);
         }
 
         private async Task WriteToFile(List<Request> records, string directoryToSave)
@@ -48,6 +58,11 @@ namespace Application.Services
 
             string date = records[0].Date.ToString("yyyy-MM-dd"); // all records should have same date, so take from 1st one
             string filePath = Path.Combine(directoryToSave, date);
+
+            if (!Directory.Exists(directoryToSave))
+            {
+                Directory.CreateDirectory(directoryToSave);
+            }
 
             using (XmlWriter writer = XmlWriter.Create(filePath, Xml.GetXmlWriterSettings()))
             {

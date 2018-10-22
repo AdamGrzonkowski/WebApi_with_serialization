@@ -35,10 +35,10 @@ namespace Api.App_Start
 
         private static void RegisterServices(ContainerBuilder builder)
         {
-            builder.RegisterType<ApplicationContext>().As<IDbContext>();
-            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
-            builder.RegisterType<RequestRepository>().As<IRequestRepository>();
-            builder.RegisterType<XmlService>().As<IXmlService>();
+            builder.RegisterType<ApplicationContext>().As<IDbContext>().InstancePerRequest();
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerRequest();
+            builder.RegisterType<RequestRepository>().As<IRequestRepository>().InstancePerRequest();
+            builder.RegisterType<RequestsService>().As<IRequestsService>().InstancePerRequest();
         }
     }
 }

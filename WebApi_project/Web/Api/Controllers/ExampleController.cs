@@ -14,27 +14,35 @@ namespace Api.Controllers
     {
         private static readonly ILog _logger = LogManager.GetLogger(typeof(ExampleController));
 
-        private readonly IXmlService _xmlService;
+        private readonly IRequestsService _requestsService;
 
         /// <summary>
         /// Public constructor.
         /// </summary>
-        /// <param name="xmlService"></param>
-        public ExampleController(IXmlService xmlService)
+        /// <param name="requestsService"></param>
+        public ExampleController(IRequestsService requestsService)
         {
-            _xmlService = xmlService;
+            _requestsService = requestsService;
         }
         /// <summary>
         /// This endpoint receives a collection of serialized JSON models
         /// and stores them in a database created using automated database migrations.
         /// </summary>
+        /// <param name="requests">Requests in JSON format.</param>
         [HttpPost]
         [Route("data")]
-        public async Task<IHttpActionResult> SaveToDatabase(IEnumerable<Request> requests)
+        public async Task<IHttpActionResult> SaveToDatabase(IEnumerable<Request> requests) 
         {
-            // no validation stated in Functional Requirements
-            _logger.Fatal("NotImplemented!");
-            throw new NotImplementedException();
+            try
+            {
+                int recordsSaved = await _requestsService.SaveRequestsToDbAsync(requests);
+                return Ok($"Created {recordsSaved} records.");
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex);
+                return InternalServerError();
+            }
         }
 
         /// <summary>
@@ -49,7 +57,7 @@ namespace Api.Controllers
             try
             {
                 string appDataPath = HostingEnvironment.MapPath(@"~/App_Data");
-                await _xmlService.WriteRequestsToFiles(appDataPath);
+                await _requestsService.WriteRequestsToFilesAsync(appDataPath);
                 return Ok();
             }
             catch (Exception ex)
