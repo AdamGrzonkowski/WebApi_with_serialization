@@ -3,6 +3,7 @@ using Application.Services.Interfaces;
 using Domain.Model;
 using Domain.Services.Interfaces;
 using Domain.Services.Interfaces.Base;
+using Helper.Common.Files;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -48,7 +49,7 @@ namespace Application.Services
             string date = records[0].Date.ToString("yyyy-MM-dd"); // all records should have same date, so take from 1st one
             string filePath = Path.Combine(directoryToSave, date);
 
-            using (XmlWriter writer = XmlWriter.Create(filePath, new XmlWriterSettings{Async = true}))
+            using (XmlWriter writer = XmlWriter.Create(filePath, Xml.GetXmlWriterSettings()))
             {
                 await writer.WriteStartDocumentAsync().ConfigureAwait(false);
                 await writer.WriteStartElementAsync(null, "requests",null).ConfigureAwait(false);
@@ -59,7 +60,10 @@ namespace Application.Services
                         writer.WriteElementString("ix", record.Index.ToString());
                         writer.WriteStartElement("content");
                             writer.WriteElementString("name", record.Name);
-                            writer.WriteElementString("visits", record.Visits?.ToString());
+                            if (record.Visits.HasValue)
+                            {
+                                writer.WriteElementString("visits", record.Visits.ToString());
+                            }
                             writer.WriteElementString("dateRequested", date);
                         writer.WriteEndElement();
                     writer.WriteEndElement();

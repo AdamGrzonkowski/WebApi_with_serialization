@@ -49,6 +49,10 @@
     <Compile Include="XmlService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Helper.Common\Helper.Common.csproj">
+      <Project>{CB51364A-E4F1-409E-8005-56EBCD09C81B}</Project>
+      <Name>Helper.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Core\Application.Services.Interfaces\Application.Services.Interfaces.csproj">
       <Project>{B31A63D3-E00A-44F2-9BB4-2296659051BA}</Project>
       <Name>Application.Services.Interfaces</Name>
