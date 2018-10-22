@@ -16,9 +16,9 @@ namespace Domain.Services.Interfaces.Base
         Task<List<TEntity>> GetAllAsync();
 
         /// <summary>
-        /// Inserts new record.
+        /// Adds record to the list of entities to be persisted after committing changes.
         /// </summary>
         /// <param name="entity">Entity to be added.</param>
-        int Insert(TEntity entity);
+        void Insert(TEntity entity);
     }
 }

@@ -22,9 +22,9 @@ namespace Domain.Services.Repositories.Base
             return await Entities.ToListAsync().ConfigureAwait(false);
         }
 
-        public int Insert(TEntity entity)
+        public void Insert(TEntity entity)
         {
-            return Entities.Add(entity).Index;
+            Entities.Add(entity);
         }
     }
 }

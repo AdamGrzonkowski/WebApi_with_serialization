@@ -26,9 +26,10 @@ namespace Domain.Services
         /// Constructor used in unit tests by Effort.
         /// </summary>
         /// <param name="connection"></param>
-        public ApplicationContext(DbConnection connection) : base(connection, true)
+        public ApplicationContext(DbConnection connection) : base(connection,true)
         {
             FixProviderError();
+            Database.CreateIfNotExists();
         }
 
         public new IDbSet<TEntity> Set<TEntity>() where TEntity : BaseEntity
