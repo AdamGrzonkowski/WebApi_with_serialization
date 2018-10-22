@@ -25,15 +25,15 @@ namespace RequestsSender
             log4net.Config.XmlConfigurator.Configure(new FileInfo(AppDomain.CurrentDomain.SetupInformation
                 .ConfigurationFile));
 
-            if (args.Length > 1 && args.Length < 1)
-            {
-                DisplayInstructions();
-                Environment.Exit(-1);
-            }
-
             try
             {
-                Logger.Info("Requests sender started");
+                if (args.Length > 1 || args.Length < 1)
+                {
+                    DisplayInstructions();
+                    Environment.Exit(-1);
+                }
+
+                Logger.Info("Requests sender started.");
                 RunAsync(args[0]).GetAwaiter().GetResult();
             }
             catch (Exception ex)
@@ -58,6 +58,7 @@ namespace RequestsSender
                     Client.DefaultRequestHeaders.Accept.Clear();
                     Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaType.Json));
 
+                    Logger.Info("Sending request...");
                     HttpResponseMessage response = await Client.PostAsync(config.PostRequestsUri, stringContent);
                     response.EnsureSuccessStatusCode();
 
@@ -82,7 +83,7 @@ namespace RequestsSender
 
         private static void DisplayInstructions()
         {
-            Console.WriteLine("Specify single integer parameter = number of models to create.");
+            Console.WriteLine("Invalid invocation. Specify single integer parameter = number of models to create.");
             Console.WriteLine("Example usage:");
             Console.WriteLine("RequestsSender 3");
             Console.WriteLine("Above execution would create three new Request records in db.");

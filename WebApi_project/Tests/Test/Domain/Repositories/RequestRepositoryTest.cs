@@ -34,7 +34,7 @@ namespace Test.Domain.Repositories
         }
 
         [Fact]
-        public async Task Insert_Request_To_Db()
+        public async Task InsertRequestToDb()
         {
             string name = "TestName";
             Request req = new Request
@@ -54,7 +54,7 @@ namespace Test.Domain.Repositories
         }
 
         [Fact]
-        public void Insert_does_not_save_record_without_committing()
+        public void InsertDoesNotSaveRecordWithoutCommitting()
         {
             string name = "TestName";
             Request req = new Request
@@ -73,7 +73,7 @@ namespace Test.Domain.Repositories
         }
 
         [Fact]
-        public async Task Get_All_requests()
+        public async Task GetAllRequests()
         {
             Request req = new Request();
             Request req2 = new Request();
@@ -96,7 +96,7 @@ namespace Test.Domain.Repositories
         }
 
         [Fact]
-        public async Task Unit_of_work_works_in_batches()
+        public async Task UnitOfWorkWorksInBatches()
         {
             Request req = new Request();
             Request req2 = new Request();

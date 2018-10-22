@@ -1,5 +1,6 @@
 ﻿using Application.Services.Interfaces;
 using Domain.Model;
+using Helper.Common.Messages;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,13 @@ using System.Web.Http.Description;
 
 namespace Api.Controllers
 {
+    /// <summary>
+    /// Handles http methods concerning Request records.
+    /// </summary>
     [RoutePrefix("api")]
-    public class ExampleController : ApiController
+    public class RequestsController : ApiController
     {
-        private static readonly ILog Logger = LogManager.GetLogger(typeof(ExampleController));
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(RequestsController));
 
         private readonly IRequestsService _requestsService;
 
@@ -21,7 +25,7 @@ namespace Api.Controllers
         /// Public constructor.
         /// </summary>
         /// <param name="requestsService"></param>
-        public ExampleController(IRequestsService requestsService)
+        public RequestsController(IRequestsService requestsService)
         {
             _requestsService = requestsService;
         }
@@ -73,9 +77,8 @@ namespace Api.Controllers
                 string appDataPath = HostingEnvironment.MapPath(@"~/App_Data");
                 await _requestsService.WriteRequestsToFilesAsync(appDataPath);
 
-                string msg = "Request records have been saved to .xml files.";
-                Logger.Info(msg);
-                return Ok(msg);
+                Logger.Info(SuccessMessage.SavedToXml);
+                return Ok(SuccessMessage.SavedToXml);
             }
             catch (Exception ex)
             {

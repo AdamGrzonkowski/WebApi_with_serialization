@@ -106,7 +106,7 @@
     <Compile Include="App_Start\ContainerConfig.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\ExampleController.cs" />
+    <Compile Include="Controllers\RequestsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -126,6 +126,10 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Helper.Common\Helper.Common.csproj">
+      <Project>{CB51364A-E4F1-409E-8005-56EBCD09C81B}</Project>
+      <Name>Helper.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Core\Application.Services.Interfaces\Application.Services.Interfaces.csproj">
       <Project>{B31A63D3-E00A-44F2-9BB4-2296659051BA}</Project>
       <Name>Application.Services.Interfaces</Name>
