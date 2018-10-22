@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Helper.Common.Configuration;
+using RequestsSender.Core;
 
 namespace RequestsSender
 {
@@ -15,6 +16,7 @@ namespace RequestsSender
             ContainerBuilder builder = new ContainerBuilder();
 
             builder.RegisterType<Configuration>().As<IConfiguration>().SingleInstance();
+            builder.RegisterType<Logic>().As<ILogic>().SingleInstance();
 
             return builder.Build();
         }

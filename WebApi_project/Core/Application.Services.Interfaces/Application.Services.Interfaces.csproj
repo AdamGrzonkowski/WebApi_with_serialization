@@ -44,7 +44,7 @@
     <Compile Include="..\..\SolutionItems\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="BaseBl\BaseBl.cs" />
+    <Compile Include="BaseBl\IBaseBl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IRequestsService.cs" />
   </ItemGroup>

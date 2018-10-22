@@ -21,7 +21,7 @@ namespace Test.Web.Controllers
     {
         private const int _numberOfRequests = 2;
 
-        private readonly IEnumerable<Request> _requests = RequestsBuilder.GetNRequests(_numberOfRequests);
+        private readonly IEnumerable<Request> _requests = RequestsGenerator.GetNRequests(_numberOfRequests);
         private readonly IRequestsService _service = NSubstitute.Substitute.For<IRequestsService>();
 
         [Fact]
@@ -45,7 +45,6 @@ namespace Test.Web.Controllers
         public async Task SaveToDatabaseSendsCorrectMessageOnSuccess()
         {
             // Arrange
-            _service.WriteRequestsToFilesAsync(string.Empty).Returns(Task.CompletedTask);
             RequestsController controller = new RequestsController(_service);
 
             // Act

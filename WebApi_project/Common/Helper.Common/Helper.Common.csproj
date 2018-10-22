@@ -46,6 +46,8 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ConfigStrings\ConnectionStrings.cs" />
+    <Compile Include="ConfigStrings\FileExtension.cs" />
+    <Compile Include="ConfigStrings\Formatter.cs" />
     <Compile Include="ConfigStrings\MediaType.cs" />
     <Compile Include="Configuration\ConfigKey.cs" />
     <Compile Include="Configuration\Configuration.cs" />

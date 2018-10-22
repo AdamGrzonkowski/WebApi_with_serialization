@@ -113,6 +113,31 @@ namespace Test.Domain.Repositories
             Assert.Equal(2, _set.Count());
         }
 
+        [Fact]
+        public async Task UnitOfWorkRollsBackChangesCorrectly()
+        {
+            const string name1 = "Test1";
+            const string name2 = "ChangedName";
+
+            Request req = new Request
+            {
+                Name = name1
+            };
+
+            _repository.Insert(req);
+            await _dbContext.SaveChangesAsync();
+
+            Assert.Equal(name1, req.Name);
+
+            req.Name = name2;
+            _dbContext.Entry(req).State = EntityState.Modified;
+            Assert.Equal(name2, req.Name);
+
+            await _uow.RollbackAsync();
+
+            Assert.Equal(name1, req.Name);
+        }
+
         public void Dispose()
         {
             Dispose(true);

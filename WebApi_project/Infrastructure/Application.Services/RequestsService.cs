@@ -3,6 +3,7 @@ using Application.Services.Interfaces;
 using Domain.Model;
 using Domain.Services.Interfaces;
 using Domain.Services.Interfaces.Base;
+using Helper.Common.ConfigStrings;
 using Helper.Common.Files;
 using System.Collections.Generic;
 using System.IO;
@@ -56,8 +57,8 @@ namespace Application.Services
                 return;
             }
 
-            string date = records[0].Date.ToString("yyyy-MM-dd"); // all records should have same date, so take from 1st one
-            string filePath = Path.Combine(directoryToSave, date);
+            string date = records[0].Date.ToString(Formatter.ShortDateFormat); // all records after grouping have same date, so take from 1st one
+            string filePath = Path.Combine(directoryToSave, date + FileExtension.Xml);
 
             if (!Directory.Exists(directoryToSave))
             {
@@ -67,7 +68,7 @@ namespace Application.Services
             using (XmlWriter writer = XmlWriter.Create(filePath, Xml.GetXmlWriterSettings()))
             {
                 await writer.WriteStartDocumentAsync().ConfigureAwait(false);
-                await writer.WriteStartElementAsync(null, "requests",null).ConfigureAwait(false);
+                await writer.WriteStartElementAsync(null, "requests",null).ConfigureAwait(false); //adding another lvl as there may be multiple records with same date
 
                 foreach (Request record in records)
                 {

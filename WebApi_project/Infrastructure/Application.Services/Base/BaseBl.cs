@@ -13,7 +13,7 @@ namespace Application.Services.Base
             _unitOfWork = uow;
         }
 
-        public async Task<int> SaveChangesAsync()
+        protected async Task<int> SaveChangesAsync()
         {
             try
             {

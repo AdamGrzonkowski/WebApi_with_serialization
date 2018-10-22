@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Test.Builders
 {
-    public static class RequestsBuilder
+    public static class RequestsGenerator
     {
         public static List<Request> GetNRequests(int count)
         {

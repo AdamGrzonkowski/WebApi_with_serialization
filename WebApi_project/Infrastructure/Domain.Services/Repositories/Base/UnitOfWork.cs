@@ -1,6 +1,7 @@
 ﻿using Domain.Services.Interfaces.Base;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,7 +28,11 @@ namespace Domain.Services.Repositories.Base
             List<DbEntityEntry> entriesToRollback = _context.ChangeTracker.Entries().ToList();
             foreach (DbEntityEntry entity in entriesToRollback)
             {
-                await entity.ReloadAsync().ConfigureAwait(false);
+                // for newly added entities, we can't reload anything from db, as it's not there yet
+                if (entity.State != EntityState.Added && entity.State != EntityState.Detached)
+                {
+                    await entity.ReloadAsync().ConfigureAwait(false);
+                }
             }
         }
 
