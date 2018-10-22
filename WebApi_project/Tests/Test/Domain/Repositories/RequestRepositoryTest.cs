@@ -19,10 +19,10 @@ namespace Test.Domain.Repositories
     {
         private DbConnection _connection;
 
-        private IDbContext _dbContext;
-        private IRequestRepository _repository;
-        private IUnitOfWork _uow;
-        private IDbSet<Request> _set;
+        private readonly IDbContext _dbContext;
+        private readonly IRequestRepository _repository;
+        private readonly IUnitOfWork _uow;
+        private readonly IDbSet<Request> _set;
 
         public RequestRepositoryTest()
         {
@@ -42,15 +42,15 @@ namespace Test.Domain.Repositories
                 Name = name
             };
 
-            Assert.Equal(req.Index, default(int));
+            Assert.Equal(default(int), req.Index);
 
             _repository.Insert(req);
             await _uow.CommitAsync();
 
-            Assert.NotEqual(req.Index, default(int)); // value should be autoincremented after persisting
-            Assert.Equal(_set.Count(), 1);
+            Assert.NotEqual(default(int), req.Index); // value should be autoincremented after persisting
+            Assert.Equal(1, _set.Count());
             Request addedReq = _set.Find(req.Index);
-            Assert.Equal(addedReq.Name, name);
+            Assert.Equal(name, addedReq.Name);
         }
 
         [Fact]
@@ -62,14 +62,14 @@ namespace Test.Domain.Repositories
                 Name = name
             };
 
-            Assert.Equal(req.Index, default(int));
+            Assert.Equal(default(int), req.Index);
 
             _repository.Insert(req);
 
-            Assert.Equal(_set.Count(), 0);
+            Assert.Equal(0, _set.Count());
             Request addedReq = _set.Find(req.Index); // record should be added to the context, but not persisted yet to db (Find function returns objects from context too)
             Assert.NotNull(addedReq);
-            Assert.Equal(req.Index, default(int));
+            Assert.Equal(default(int), req.Index);
         }
 
         [Fact]
@@ -110,7 +110,7 @@ namespace Test.Domain.Repositories
 
             await _uow.CommitAsync();
 
-            Assert.Equal(_set.Count(), 2);
+            Assert.Equal(2, _set.Count());
         }
 
         public void Dispose()

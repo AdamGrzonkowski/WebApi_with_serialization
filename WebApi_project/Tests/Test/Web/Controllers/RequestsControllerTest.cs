@@ -38,7 +38,7 @@ namespace Test.Web.Controllers
             // Assert
             Assert.NotNull(contentResult);
             Assert.NotNull(contentResult.Content);
-            Assert.True(contentResult.Content.Contains($"{_numberOfRequests}"));
+            Assert.Equal(contentResult.Content, SuccessMessage.PostSuccess(_numberOfRequests));
         }
 
         [Fact]

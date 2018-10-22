@@ -47,7 +47,7 @@ namespace Api.Controllers
             {
                 int recordsSaved = await _requestsService.SaveRequestsToDbAsync(requests);
 
-                string msg = $"Created {recordsSaved} Request records.";
+                string msg = SuccessMessage.PostSuccess(recordsSaved);
                 Logger.Info(msg);
                 return Ok(msg);
             }
