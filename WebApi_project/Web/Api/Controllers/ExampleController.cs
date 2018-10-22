@@ -13,7 +13,7 @@ namespace Api.Controllers
     [RoutePrefix("api")]
     public class ExampleController : ApiController
     {
-        private static readonly ILog _logger = LogManager.GetLogger(typeof(ExampleController));
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(ExampleController));
 
         private readonly IRequestsService _requestsService;
 
@@ -36,17 +36,20 @@ namespace Api.Controllers
         /// <response code="200"></response>
         [HttpPost]
         [Route("data")]
-        [ResponseType(typeof(int))]
+        [ResponseType(typeof(string))]
         public async Task<IHttpActionResult> SaveToDatabase(IEnumerable<Request> requests) 
         {
             try
             {
                 int recordsSaved = await _requestsService.SaveRequestsToDbAsync(requests);
-                return Ok($"Created {recordsSaved} records.");
+
+                string msg = $"Created {recordsSaved} Request records.";
+                Logger.Info(msg);
+                return Ok(msg);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex);
+                Logger.Error(ex);
                 return InternalServerError();
             }
         }
@@ -62,18 +65,21 @@ namespace Api.Controllers
         /// <response code="200"></response>
         [HttpGet]
         [Route("jobs/saveFiles")]
-        [ResponseType(null)]
+        [ResponseType(typeof(string))]
         public async Task<IHttpActionResult> SaveDbRecordsToFile()
         {
             try
             {
                 string appDataPath = HostingEnvironment.MapPath(@"~/App_Data");
                 await _requestsService.WriteRequestsToFilesAsync(appDataPath);
-                return Ok();
+
+                string msg = "Request records have been saved to .xml files.";
+                Logger.Info(msg);
+                return Ok(msg);
             }
             catch (Exception ex)
             {
-                _logger.Error(ex);
+                Logger.Error(ex);
                 return InternalServerError();
             }
         }

@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -46,6 +47,10 @@
     </Compile>
     <Compile Include="ConfigStrings\ConnectionStrings.cs" />
     <Compile Include="ConfigStrings\MediaType.cs" />
+    <Compile Include="Configuration\ConfigKey.cs" />
+    <Compile Include="Configuration\Configuration.cs" />
+    <Compile Include="Configuration\ConfigurationManagerHelper.cs" />
+    <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="Files\Xml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

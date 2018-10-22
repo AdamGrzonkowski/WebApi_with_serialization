@@ -1,11 +1,13 @@
-﻿using Bogus;
+﻿using Autofac;
+using Bogus;
 using Domain.Model;
 using Helper.Common.ConfigStrings;
+using Helper.Common.Configuration;
 using log4net;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -18,11 +20,11 @@ namespace RequestsSender
         private static readonly HttpClient Client = new HttpClient();
         private static readonly ILog Logger = LogManager.GetLogger(typeof(Program));
 
-        private static string BaseApiUrl => ConfigurationManager.AppSettings["apiBaseAddress"];
-        private static string PostRequestsMethod => ConfigurationManager.AppSettings["apiPostRequestUri"];
-
         public static void Main(string[] args)
         {
+            log4net.Config.XmlConfigurator.Configure(new FileInfo(AppDomain.CurrentDomain.SetupInformation
+                .ConfigurationFile));
+
             if (args.Length > 1 && args.Length < 1)
             {
                 DisplayInstructions();
@@ -31,6 +33,7 @@ namespace RequestsSender
 
             try
             {
+                Logger.Info("Requests sender started");
                 RunAsync(args[0]).GetAwaiter().GetResult();
             }
             catch (Exception ex)
@@ -46,14 +49,20 @@ namespace RequestsSender
                 string json = JsonConvert.SerializeObject(GetFakeRequests(numberOfItemsToCreate));
                 StringContent stringContent = new StringContent(json, Encoding.UTF8, MediaType.Json);
 
-                Client.BaseAddress = new Uri(BaseApiUrl);
-                Client.DefaultRequestHeaders.Accept.Clear();
-                Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaType.Json));
+                // there's no point registering it sooner, as we only need it here
+                using (IContainer container = Startup.ConfigureContainer())
+                {
+                    IConfiguration config = container.Resolve<IConfiguration>();
 
-                HttpResponseMessage response = await Client.PostAsync(PostRequestsMethod, stringContent);
-                response.EnsureSuccessStatusCode();
+                    Client.BaseAddress = new Uri(config.BaseApiAddress);
+                    Client.DefaultRequestHeaders.Accept.Clear();
+                    Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaType.Json));
 
-                Console.WriteLine(await response.Content.ReadAsStringAsync());
+                    HttpResponseMessage response = await Client.PostAsync(config.PostRequestsUri, stringContent);
+                    response.EnsureSuccessStatusCode();
+
+                    Logger.Info(await response.Content.ReadAsStringAsync());
+                }
             }
             else
             {

@@ -17,6 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{7F80DC7B-FDEA-4C9D-A63B-911DE232EE6B}"
 	ProjectSection(SolutionItems) = preProject
+		SolutionItems\Global.config = SolutionItems\Global.config
 		SolutionItems\SharedAssemblyInfo.cs = SolutionItems\SharedAssemblyInfo.cs
 	EndProjectSection
 EndProject
