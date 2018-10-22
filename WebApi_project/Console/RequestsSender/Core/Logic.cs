@@ -2,12 +2,12 @@
 using Domain.Model;
 using Helper.Common.ConfigStrings;
 using Helper.Common.Configuration;
+using Helper.Common.Http;
 using log4net;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,29 +17,31 @@ namespace RequestsSender.Core
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(Logic));
         private readonly IConfiguration _config;
+        private readonly IHttpHandler _httpHandler;
 
-        public Logic(IConfiguration config)
+        public Logic(IConfiguration config, IHttpHandler httpHandler)
         {
             _config = config;
+            _httpHandler = httpHandler;
         }
 
-        public async Task RunAsync(string parameter)
+        public async Task RunAsync(string[] args)
         {
-            if (int.TryParse(parameter, out var numberOfItemsToCreate))
+            if (args.Length > 1 || args.Length < 1)
+            {
+                DisplayInstructions();
+            }
+
+            Logger.Info("Requests sender started.");
+
+            if (int.TryParse(args[0], out var numberOfItemsToCreate))
             {
                 string json = JsonConvert.SerializeObject(GetFakeRequests(numberOfItemsToCreate));
                 StringContent stringContent = new StringContent(json, Encoding.UTF8, MediaType.Json);
 
-                HttpClient client = new HttpClient
-                {
-                    BaseAddress = new Uri(_config.BaseApiAddress)
-                };
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaType.Json));
-
                 Logger.Info("Sending request...");
                 // This is a candidate for using message queue
-                HttpResponseMessage response = await client.PostAsync(_config.PostRequestsUri, stringContent);
+                HttpResponseMessage response = await _httpHandler.PostAsync(_config.PostRequestsUri, stringContent);
                 response.EnsureSuccessStatusCode();
 
                 Logger.Info(await response.Content.ReadAsStringAsync());
@@ -50,12 +52,14 @@ namespace RequestsSender.Core
             }
         }
 
-        public void DisplayInstructions()
+        private void DisplayInstructions()
         {
             Console.WriteLine("Invalid invocation. Specify single integer parameter = number of models to create.");
             Console.WriteLine("Example usage:");
             Console.WriteLine("RequestsSender 3");
             Console.WriteLine("Above execution would create three new Request records in db.");
+
+            throw new InvalidOperationException("Argument invalid.");
         }
 
         private static List<Request> GetFakeRequests(int count)

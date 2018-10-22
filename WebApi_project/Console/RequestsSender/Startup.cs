@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Helper.Common.Configuration;
+using Helper.Common.Http;
 using RequestsSender.Core;
 
 namespace RequestsSender
@@ -17,6 +18,7 @@ namespace RequestsSender
 
             builder.RegisterType<Configuration>().As<IConfiguration>().SingleInstance();
             builder.RegisterType<Logic>().As<ILogic>().SingleInstance();
+            builder.RegisterType<HttpHandler>().As<IHttpHandler>().SingleInstance();
 
             return builder.Build();
         }

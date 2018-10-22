@@ -54,6 +54,8 @@
     <Compile Include="Configuration\ConfigurationManagerHelper.cs" />
     <Compile Include="Configuration\IConfiguration.cs" />
     <Compile Include="Files\Xml.cs" />
+    <Compile Include="Http\HttpHandler.cs" />
+    <Compile Include="Http\IHttpHandler.cs" />
     <Compile Include="Messages\SuccessMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

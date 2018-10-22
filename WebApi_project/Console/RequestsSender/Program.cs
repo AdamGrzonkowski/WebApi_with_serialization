@@ -20,15 +20,7 @@ namespace RequestsSender
                 using (IContainer container = Startup.ConfigureContainer())
                 {
                     ILogic logic = container.Resolve<ILogic>();
-
-                    if (args.Length > 1 || args.Length < 1)
-                    {
-                        logic.DisplayInstructions();
-                        Environment.Exit(-1);
-                    }
-
-                    Logger.Info("Requests sender started.");
-                    logic.RunAsync(args[0]).GetAwaiter().GetResult();
+                    logic.RunAsync(args).GetAwaiter().GetResult();
                 }
             }
             catch (Exception ex)

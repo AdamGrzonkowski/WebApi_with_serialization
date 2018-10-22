@@ -97,6 +97,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application\RequestsServiceTest.cs" />
+    <Compile Include="Common\ConfigStrings\FormatterTest.cs" />
+    <Compile Include="Common\ConfigStrings\MediaTypeTest.cs" />
+    <Compile Include="Common\Configuration\ConfigKeyTest.cs" />
+    <Compile Include="Common\ConfigStrings\FileExtensionTest.cs" />
+    <Compile Include="Console\RequestsSender\LogicTest.cs" />
     <Compile Include="TestDataGenerators\RequestsGenerator.cs" />
     <Compile Include="Domain\DatabaseConnectionTest.cs" />
     <Compile Include="Domain\Repositories\RequestRepositoryTest.cs" />
@@ -114,6 +119,10 @@
     <ProjectReference Include="..\..\Common\Helper.Common\Helper.Common.csproj">
       <Project>{CB51364A-E4F1-409E-8005-56EBCD09C81B}</Project>
       <Name>Helper.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Console\RequestsSender\RequestsSender.csproj">
+      <Project>{0E71E7A5-36A8-4CF1-AC34-6706D1FA9E79}</Project>
+      <Name>RequestsSender</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Core\Application.Services.Interfaces\Application.Services.Interfaces.csproj">
       <Project>{B31A63D3-E00A-44F2-9BB4-2296659051BA}</Project>

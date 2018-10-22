@@ -43,12 +43,11 @@ namespace Test.Application
         public async Task WriteRequestsToFilesAsyncTest()
         {
             // Arrange
-            const string reqName = "TestReq";
             DateTime dt = DateTime.Today;
 
             Request req1 = new Request
             {
-                Name = reqName,
+                Name = "TestReq",
                 Date = dt,
                 Visits = 3
             };
