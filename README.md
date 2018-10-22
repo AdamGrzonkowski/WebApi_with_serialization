@@ -1,5 +1,5 @@
 # Asynchronous WebApi2
-Simple WebApi which allows saving records to database and files in XML format.
+WebApi which allows saving records to database and files in XML format.
 
 ## Features: ##
 1. Ability to store db records in xml files.
