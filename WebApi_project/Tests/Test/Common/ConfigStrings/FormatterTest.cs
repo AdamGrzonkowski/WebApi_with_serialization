@@ -6,6 +6,7 @@ namespace Test.Common.ConfigStrings
 {
     public class FormatterTest
     {
+        [Fact]
         public void ShortDateFormatGivesCorrectOutput()
         {
             DateTime date = new DateTime(2019,06,27,11,23,43);
