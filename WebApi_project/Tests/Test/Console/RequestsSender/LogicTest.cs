@@ -41,7 +41,7 @@ namespace Test.Console.RequestsSender
         }
 
         [Fact]
-        public async Task NoErrorIfApiRespondsWithStatusSuccess()
+        public async Task NoErrorIfGoodParameterWasPassedAndApiRespondsWithStatusSuccess()
         {
             ArrangeHttpRequest(HttpStatusCode.OK);
             await _logic.RunAsync(new[] { $"{_argument}" });

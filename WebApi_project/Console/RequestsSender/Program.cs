@@ -17,6 +17,8 @@ namespace RequestsSender
 
             try
             {
+                Logger.Info("Requests sender started.");
+
                 using (IContainer container = Startup.ConfigureContainer())
                 {
                     ILogic logic = container.Resolve<ILogic>();
@@ -26,6 +28,10 @@ namespace RequestsSender
             catch (Exception ex)
             {
                 Logger.Error(ex);
+            }
+            finally
+            {
+                Logger.Info("Requests sender finished.");
             }
         }
     }

@@ -32,16 +32,15 @@ namespace RequestsSender.Core
                 DisplayInstructions();
             }
 
-            Logger.Info("Requests sender started.");
-
             if (int.TryParse(args[0], out var numberOfItemsToCreate))
             {
                 string json = JsonConvert.SerializeObject(GetFakeRequests(numberOfItemsToCreate));
                 StringContent stringContent = new StringContent(json, Encoding.UTF8, MediaType.Json);
 
                 Logger.Info("Sending request...");
+                string url = _config.BaseApiAddress + _config.PostRequestsUri;
                 // This is a candidate for using message queue
-                HttpResponseMessage response = await _httpHandler.PostAsync(_config.PostRequestsUri, stringContent);
+                HttpResponseMessage response = await _httpHandler.PostAsync(url, stringContent);
                 response.EnsureSuccessStatusCode();
 
                 Logger.Info(await response.Content.ReadAsStringAsync());
