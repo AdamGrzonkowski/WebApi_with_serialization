@@ -44,7 +44,9 @@
     <Compile Include="..\..\SolutionItems\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="BaseBl\BaseBl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="IXmlService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

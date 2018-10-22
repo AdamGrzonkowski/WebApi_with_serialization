@@ -1,7 +1,10 @@
-﻿using Domain.Services.Interfaces;
+﻿using Application.Services.Interfaces;
+using Domain.Model;
 using log4net;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Web.Hosting;
 using System.Web.Http;
 
 namespace Api.Controllers
@@ -11,15 +14,15 @@ namespace Api.Controllers
     {
         private static readonly ILog _logger = LogManager.GetLogger(typeof(ExampleController));
 
-        private readonly IRequestRepository _repo;
+        private readonly IXmlService _xmlService;
 
         /// <summary>
         /// Public constructor.
         /// </summary>
-        /// <param name="repo"></param>
-        public ExampleController(IRequestRepository repo)
+        /// <param name="xmlService"></param>
+        public ExampleController(IXmlService xmlService)
         {
-            _repo = repo;
+            _xmlService = xmlService;
         }
         /// <summary>
         /// This endpoint receives a collection of serialized JSON models
@@ -27,8 +30,9 @@ namespace Api.Controllers
         /// </summary>
         [HttpPost]
         [Route("data")]
-        public async Task<IHttpActionResult> SaveToDatabase()
+        public async Task<IHttpActionResult> SaveToDatabase(IEnumerable<Request> requests)
         {
+            // no validation stated in Functional Requirements
             _logger.Fatal("NotImplemented!");
             throw new NotImplementedException();
         }
@@ -42,9 +46,17 @@ namespace Api.Controllers
         [Route("jobs/saveFiles")]
         public async Task<IHttpActionResult> SaveDbRecordsToFile()
         {
-            var test = await _repo.GetAll();
-            _logger.Fatal("NotImplemented!");
-            throw new NotImplementedException();
+            try
+            {
+                string appDataPath = HostingEnvironment.MapPath(@"~/App_Data");
+                await _xmlService.WriteRequestsToFiles(appDataPath);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex);
+                return InternalServerError();
+            }
         }
     }
 }

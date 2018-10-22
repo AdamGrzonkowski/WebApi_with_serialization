@@ -17,9 +17,9 @@ namespace Domain.Services.Repositories.Base
 
         private IDbSet<TEntity> Entities => _context.Set<TEntity>();
 
-        public async Task<List<TEntity>> GetAll()
+        public async Task<List<TEntity>> GetAllAsync()
         {
-            return await Entities.ToListAsync();
+            return await Entities.ToListAsync().ConfigureAwait(false);
         }
 
         public int Insert(TEntity entity)

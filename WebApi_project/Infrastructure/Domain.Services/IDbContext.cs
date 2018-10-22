@@ -1,6 +1,7 @@
 ﻿using Domain.Model.Base;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Threading.Tasks;
 
 namespace Domain.Services
 {
@@ -9,11 +10,9 @@ namespace Domain.Services
     /// </summary>
     public interface IDbContext
     {
-        Database Database { get; }
         DbChangeTracker ChangeTracker { get; }
         IDbSet<TEntity> Set<TEntity>() where TEntity : BaseEntity;
         void Dispose();
-        DbEntityEntry Entry(object entity);
-        int SaveChanges();
+        Task<int> SaveChangesAsync();
     }
 }

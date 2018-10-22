@@ -13,7 +13,7 @@ namespace Domain.Services.Interfaces.Base
         /// <summary>
         /// Returns all entities.
         /// </summary>
-        Task<List<TEntity>> GetAll();
+        Task<List<TEntity>> GetAllAsync();
 
         /// <summary>
         /// Inserts new record.

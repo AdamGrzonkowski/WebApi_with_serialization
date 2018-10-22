@@ -129,6 +129,10 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Application.Services.Interfaces\Application.Services.Interfaces.csproj">
+      <Project>{B31A63D3-E00A-44F2-9BB4-2296659051BA}</Project>
+      <Name>Application.Services.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Core\Domain.Model\Domain.Model.csproj">
       <Project>{6D8D852C-CCFE-40C5-BB0D-9360C275C67D}</Project>
       <Name>Domain.Model</Name>
@@ -136,6 +140,10 @@
     <ProjectReference Include="..\..\Core\Domain.Services.Interfaces\Domain.Services.Interfaces.csproj">
       <Project>{3FD0AF03-FFC4-4E2A-A454-7956E873E65F}</Project>
       <Name>Domain.Services.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Application.Services\Application.Services.csproj">
+      <Project>{6CF4DF3B-1EEC-4109-A7F8-143C197FAAB4}</Project>
+      <Name>Application.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\Domain.Services\Domain.Services.csproj">
       <Project>{9D80A66F-E53F-49B3-A6BA-B95972A675AE}</Project>

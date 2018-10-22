@@ -1,5 +1,6 @@
 ﻿using Domain.Model;
 using Domain.Model.Base;
+using Helper.Common.ConfigStrings;
 using System;
 using System.Data.Common;
 using System.Data.Entity;
@@ -15,7 +16,7 @@ namespace Domain.Services
         /// <summary>
         /// Constructor used in the web app.
         /// </summary>
-        public ApplicationContext() : base("LocalHostDb")
+        public ApplicationContext() : base(ConnectionStrings.LocalDbConnectionName)
         {
             FixProviderError();
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationContext, Migrations.Configuration>());

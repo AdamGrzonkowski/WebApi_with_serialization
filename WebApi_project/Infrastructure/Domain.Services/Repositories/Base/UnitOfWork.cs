@@ -1,6 +1,9 @@
 ﻿using Domain.Services.Interfaces.Base;
 using System;
+using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Domain.Services.Repositories.Base
 {
@@ -14,18 +17,18 @@ namespace Domain.Services.Repositories.Base
             _context = context;
         }
 
-        public int Commit()
+        public async Task<int> CommitAsync()
         {
-            return _context.SaveChanges();
+            return await _context.SaveChangesAsync().ConfigureAwait(false); ;
         }
 
-        public void Rollback()
+        public async Task RollbackAsync()
         {
-            _context
-                .ChangeTracker
-                .Entries()
-                .ToList()
-                .ForEach(async x => await x.ReloadAsync());
+            List<DbEntityEntry> entriesToRollback = _context.ChangeTracker.Entries().ToList();
+            foreach (DbEntityEntry entity in entriesToRollback)
+            {
+                await entity.ReloadAsync().ConfigureAwait(false);
+            }
         }
 
         public void Dispose()

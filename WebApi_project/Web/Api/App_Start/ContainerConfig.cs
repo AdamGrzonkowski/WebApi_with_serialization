@@ -1,4 +1,6 @@
-﻿using Autofac;
+﻿using Application.Services;
+using Application.Services.Interfaces;
+using Autofac;
 using Autofac.Integration.WebApi;
 using Domain.Services;
 using Domain.Services.Interfaces;
@@ -36,6 +38,7 @@ namespace Api.App_Start
             builder.RegisterType<ApplicationContext>().As<IDbContext>();
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
             builder.RegisterType<RequestRepository>().As<IRequestRepository>();
+            builder.RegisterType<XmlService>().As<IXmlService>();
         }
     }
 }
