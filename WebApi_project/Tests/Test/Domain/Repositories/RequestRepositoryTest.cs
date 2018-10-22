@@ -54,6 +54,25 @@ namespace Test.Domain.Repositories
         }
 
         [Fact]
+        public void Insert_does_not_save_record_without_committing()
+        {
+            string name = "TestName";
+            Request req = new Request
+            {
+                Name = name
+            };
+
+            Assert.Equal(req.Index, default(int));
+
+            _repository.Insert(req);
+
+            Assert.Equal(_set.Count(), 0);
+            Request addedReq = _set.Find(req.Index); // record should be added to the context, but not persisted yet to db (Find function returns objects from context too)
+            Assert.NotNull(addedReq);
+            Assert.Equal(req.Index, default(int));
+        }
+
+        [Fact]
         public async Task Get_All_requests()
         {
             Request req = new Request();

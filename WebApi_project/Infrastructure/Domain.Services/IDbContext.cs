@@ -14,7 +14,6 @@ namespace Domain.Services
         Database Database { get; }
         DbChangeTracker ChangeTracker { get; }
         IDbSet<TEntity> Set<TEntity>() where TEntity : BaseEntity;
-        void Dispose();
         Task<int> SaveChangesAsync();
     }
 }
