@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace Api.Controllers
 {
@@ -28,9 +29,14 @@ namespace Api.Controllers
         /// This endpoint receives a collection of serialized JSON models
         /// and stores them in a database created using automated database migrations.
         /// </summary>
-        /// <param name="requests">Requests in JSON format.</param>
+        /// <param name="requests">Requests in chosen format.</param>
+        /// <remarks>
+        /// Asynchronously saves records to database.
+        /// </remarks>
+        /// <response code="200"></response>
         [HttpPost]
         [Route("data")]
+        [ResponseType(typeof(int))]
         public async Task<IHttpActionResult> SaveToDatabase(IEnumerable<Request> requests) 
         {
             try
@@ -50,8 +56,13 @@ namespace Api.Controllers
         /// database records and then serializes each table record as an XML file.The files are
         /// saved in App_Data\xml\yyyy-MM-dd based on the date value in the models.
         /// </summary>
+        /// <remarks>
+        /// Asynchronously saves records stored in database to .xml files.
+        /// </remarks>
+        /// <response code="200"></response>
         [HttpGet]
         [Route("jobs/saveFiles")]
+        [ResponseType(null)]
         public async Task<IHttpActionResult> SaveDbRecordsToFile()
         {
             try

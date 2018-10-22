@@ -61,6 +61,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Helper.Common\Helper.Common.csproj">
+      <Project>{CB51364A-E4F1-409E-8005-56EBCD09C81B}</Project>
+      <Name>Helper.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Core\Domain.Model\Domain.Model.csproj">
       <Project>{6D8D852C-CCFE-40C5-BB0D-9360C275C67D}</Project>
       <Name>Domain.Model</Name>

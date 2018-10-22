@@ -36,7 +36,7 @@ namespace Application.Services
             List<Request> requests = await _repo.GetAllAsync().ConfigureAwait(false);
 
             var groupedRequests = requests
-                .GroupBy(u => u.Date)
+                .GroupBy(u => u.Date.Date)
                 .Select(grp => grp.ToList())
                 .ToList();
 
