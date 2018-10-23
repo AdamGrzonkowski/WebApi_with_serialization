@@ -1,5 +1,7 @@
 ﻿using Application.Services;
 using Application.Services.Interfaces;
+using Application.Services.Interfaces.Mappers;
+using Application.Services.Mappers;
 using Autofac;
 using Autofac.Integration.WebApi;
 using Domain.Services;
@@ -37,8 +39,10 @@ namespace Api.App_Start
         {
             builder.RegisterType<ApplicationContext>().As<IDbContext>().InstancePerRequest();
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerRequest();
+
             builder.RegisterType<RequestRepository>().As<IRequestRepository>().InstancePerRequest();
             builder.RegisterType<RequestsService>().As<IRequestsService>().InstancePerRequest();
+            builder.RegisterType<RequestsMapper>().As<IRequestsMapper>().InstancePerRequest();
         }
     }
 }

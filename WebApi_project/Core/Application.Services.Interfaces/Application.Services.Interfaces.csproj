@@ -45,10 +45,15 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BaseBl\IBaseBl.cs" />
+    <Compile Include="Mappers\IRequestsMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IRequestsService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Application.Model\Application.Model.csproj">
+      <Project>{073687E4-E63C-494D-814F-AFD38CC16165}</Project>
+      <Name>Application.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Domain.Model\Domain.Model.csproj">
       <Project>{6D8D852C-CCFE-40C5-BB0D-9360C275C67D}</Project>
       <Name>Domain.Model</Name>

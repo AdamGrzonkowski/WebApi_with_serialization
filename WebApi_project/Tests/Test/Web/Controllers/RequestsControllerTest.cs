@@ -1,7 +1,7 @@
 ﻿using Api;
 using Api.Controllers;
+using Application.Model;
 using Application.Services.Interfaces;
-using Domain.Model;
 using Helper.Common.Messages;
 using NSubstitute;
 using System;
@@ -21,7 +21,7 @@ namespace Test.Web.Controllers
     {
         private const int _numberOfRequests = 2;
 
-        private readonly IEnumerable<Request> _requests = RequestsGenerator.GetNRequests(_numberOfRequests);
+        private readonly IEnumerable<RequestModel> _requests = RequestsGenerator.GetNRequestModels(_numberOfRequests);
         private readonly IRequestsService _service = NSubstitute.Substitute.For<IRequestsService>();
 
         [Fact]

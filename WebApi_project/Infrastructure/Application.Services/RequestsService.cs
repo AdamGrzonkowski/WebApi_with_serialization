@@ -1,5 +1,7 @@
-﻿using Application.Services.Base;
+﻿using Application.Model;
+using Application.Services.Base;
 using Application.Services.Interfaces;
+using Application.Services.Interfaces.Mappers;
 using Domain.Model;
 using Domain.Services.Interfaces;
 using Domain.Services.Interfaces.Base;
@@ -16,15 +18,17 @@ namespace Application.Services
     public class RequestsService : BaseBl, IRequestsService
     {
         private readonly IRequestRepository _repo;
+        private readonly IRequestsMapper _mapper;
 
-        public RequestsService(IUnitOfWork uow, IRequestRepository repo) : base(uow)
+        public RequestsService(IUnitOfWork uow, IRequestRepository repo, IRequestsMapper mapper) : base(uow)
         {
             _repo = repo;
+            _mapper = mapper;
         }
 
-        public async Task<int> SaveRequestsToDbAsync(IEnumerable<Request> requests)
+        public async Task<int> SaveRequestsToDbAsync(IEnumerable<RequestModel> requests)
         {
-            foreach (Request req in requests)
+            foreach (Request req in _mapper.ModelsToEntities(requests))
             {
                 _repo.Insert(req);
             }
@@ -34,9 +38,9 @@ namespace Application.Services
 
         public async Task WriteRequestsToFilesAsync(string directoryToSave)
         {
-            List<Request> requests = await _repo.GetAllAsync().ConfigureAwait(false);
+            IEnumerable<Request> requests = await _repo.GetAllAsync().ConfigureAwait(false);
 
-            var groupedRequests = requests
+            var groupedRequests = _mapper.EntitiesToModels(requests)
                 .GroupBy(u => u.Date.Date)
                 .Select(grp => grp.ToList())
                 .ToList();
@@ -50,7 +54,7 @@ namespace Application.Services
             await Task.WhenAll(tasks).ConfigureAwait(false);
         }
 
-        private async Task WriteToFile(List<Request> records, string directoryToSave)
+        private async Task WriteToFile(List<RequestModel> records, string directoryToSave)
         {
             if (records.Count == 0)
             {
@@ -70,10 +74,10 @@ namespace Application.Services
                 await writer.WriteStartDocumentAsync().ConfigureAwait(false);
                 await writer.WriteStartElementAsync(null, "requests",null).ConfigureAwait(false); //adding another lvl as there may be multiple records with same date
 
-                foreach (Request record in records)
+                foreach (RequestModel record in records)
                 {
                     writer.WriteStartElement("request");
-                        writer.WriteElementString("ix", record.Index.ToString());
+                        writer.WriteElementString("ix", record.Id.ToString());
                         writer.WriteStartElement("content");
                             writer.WriteElementString("name", record.Name);
                             if (record.Visits.HasValue)

@@ -54,6 +54,19 @@ namespace Test.Domain.Repositories
         }
 
         [Fact]
+        public void InsertPopulatesTimeStampOnDomainModel()
+        {
+            Request req = new Request();
+
+            Assert.Null(req.InsTs);
+
+            _repository.Insert(req);
+
+            Assert.NotNull(req.InsTs);
+            Assert.Equal(DateTime.Today, req.InsTs.Value.Date);
+        }
+
+        [Fact]
         public void InsertDoesNotSaveRecordWithoutCommitting()
         {
             string name = "TestName";

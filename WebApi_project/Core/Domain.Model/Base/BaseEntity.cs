@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Model.Base
 {
@@ -12,5 +13,10 @@ namespace Domain.Model.Base
         /// </summary>
         [Key]
         public int Index { get; set; }
+
+        /// <summary>
+        /// Time of creation.
+        /// </summary>
+        public DateTime? InsTs { get; set; }
     }
 }

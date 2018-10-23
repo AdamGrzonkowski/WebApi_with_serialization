@@ -1,5 +1,7 @@
-﻿using Application.Services;
+﻿using Application.Model;
+using Application.Services;
 using Application.Services.Interfaces;
+using Application.Services.Interfaces.Mappers;
 using Domain.Model;
 using Domain.Services.Interfaces;
 using Domain.Services.Interfaces.Base;
@@ -20,13 +22,15 @@ namespace Test.Application
         private readonly IUnitOfWork _uow;
         private readonly IRequestRepository _repository;
         private readonly IRequestsService _requestsService;
+        private readonly IRequestsMapper _mapper;
 
         public RequestsServiceTest()
         {
             _uow = Substitute.For<IUnitOfWork>();
             _repository = Substitute.For<IRequestRepository>();
+            _mapper = Substitute.For<IRequestsMapper>();
 
-            _requestsService = new RequestsService(_uow, _repository);
+            _requestsService = new RequestsService(_uow, _repository, _mapper);
         }
 
         [Fact]
@@ -35,7 +39,7 @@ namespace Test.Application
             const int number = 3;
             _uow.CommitAsync().Returns(number);
 
-            int result = await _requestsService.SaveRequestsToDbAsync(RequestsGenerator.GetNRequests(number));
+            int result = await _requestsService.SaveRequestsToDbAsync(RequestsGenerator.GetNRequestModels(number));
             Assert.Equal(number, result);
         }
 
@@ -45,16 +49,32 @@ namespace Test.Application
             // Arrange
             DateTime dt = DateTime.Today;
 
+            const string name1 = "TestReq";
+            const string name2 = "Some";
+
             Request req1 = new Request
             {
-                Name = "TestReq",
+                Name = name1,
                 Date = dt,
                 Visits = 3
             };
 
             Request req2 = new Request
             {
-                Name = "Some",
+                Name = name2,
+                Date = dt.AddDays(1)
+            };
+
+            RequestModel reqM1 = new RequestModel
+            {
+                Name = name1,
+                Date = dt,
+                Visits = 3
+            };
+
+            RequestModel reqM2 = new RequestModel
+            {
+                Name = name2,
                 Date = dt.AddDays(1)
             };
 
@@ -65,17 +85,19 @@ namespace Test.Application
             string filePath1 = Path.Combine(pathToSaveXmlFiles, req1Date + FileExtension.Xml);
             string filePath2 = Path.Combine(pathToSaveXmlFiles, req2Date + FileExtension.Xml);
 
-            _repository.GetAllAsync().Returns(new List<Request> { req1, req2 });
+            List<Request> reqList = new List<Request>{req1, req2};
+            _repository.GetAllAsync().Returns(reqList);
+            _mapper.EntitiesToModels(reqList).Returns(new List<RequestModel> {reqM1, reqM2});
 
             // Act
             await _requestsService.WriteRequestsToFilesAsync(pathToSaveXmlFiles);
 
             // Assert
-            CheckXmlFileFormatting(filePath1, req1, req1Date);
-            CheckXmlFileFormatting(filePath2, req2, req2Date);
+            CheckXmlFileFormatting(filePath1, reqM1, req1Date);
+            CheckXmlFileFormatting(filePath2, reqM2, req2Date);
         }
 
-        private void CheckXmlFileFormatting(string filePath, Request req, string reqDateAsString)
+        private void CheckXmlFileFormatting(string filePath, RequestModel req, string reqDateAsString)
         {
             Assert.True(File.Exists(filePath));
 

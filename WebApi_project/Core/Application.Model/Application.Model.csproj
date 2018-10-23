@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6CF4DF3B-1EEC-4109-A7F8-143C197FAAB4}</ProjectGuid>
+    <ProjectGuid>{073687E4-E63C-494D-814F-AFD38CC16165}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Application.Services</RootNamespace>
-    <AssemblyName>Application.Services</AssemblyName>
+    <RootNamespace>Application.Model</RootNamespace>
+    <AssemblyName>Application.Model</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,35 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\BaseModel.cs" />
+    <Compile Include="RequestModel.cs" />
     <Compile Include="..\..\SolutionItems\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Base\BaseBl.cs" />
-    <Compile Include="Mappers\RequestsMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequestsService.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Common\Helper.Common\Helper.Common.csproj">
-      <Project>{CB51364A-E4F1-409E-8005-56EBCD09C81B}</Project>
-      <Name>Helper.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\Application.Model\Application.Model.csproj">
-      <Project>{073687E4-E63C-494D-814F-AFD38CC16165}</Project>
-      <Name>Application.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\Application.Services.Interfaces\Application.Services.Interfaces.csproj">
-      <Project>{B31A63D3-E00A-44F2-9BB4-2296659051BA}</Project>
-      <Name>Application.Services.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\Domain.Model\Domain.Model.csproj">
-      <Project>{6D8D852C-CCFE-40C5-BB0D-9360C275C67D}</Project>
-      <Name>Domain.Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Core\Domain.Services.Interfaces\Domain.Services.Interfaces.csproj">
-      <Project>{3FD0AF03-FFC4-4E2A-A454-7956E873E65F}</Project>
-      <Name>Domain.Services.Interfaces</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

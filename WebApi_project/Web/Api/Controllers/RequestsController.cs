@@ -1,5 +1,5 @@
-﻿using Application.Services.Interfaces;
-using Domain.Model;
+﻿using Application.Model;
+using Application.Services.Interfaces;
 using Helper.Common.Messages;
 using log4net;
 using System;
@@ -41,7 +41,7 @@ namespace Api.Controllers
         [HttpPost]
         [Route("data")]
         [ResponseType(typeof(string))]
-        public async Task<IHttpActionResult> SaveToDatabase(IEnumerable<Request> requests) 
+        public async Task<IHttpActionResult> SaveToDatabase(IEnumerable<RequestModel> requests) 
         {
             try
             {

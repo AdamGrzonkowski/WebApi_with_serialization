@@ -1,5 +1,6 @@
 ﻿using Domain.Model.Base;
 using Domain.Services.Interfaces.Base;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace Domain.Services.Repositories.Base
 
         public void Insert(TEntity entity)
         {
+            entity.InsTs = DateTime.Now;
             Entities.Add(entity);
         }
     }

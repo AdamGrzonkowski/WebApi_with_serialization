@@ -1,4 +1,5 @@
 ﻿using Api.App_Start;
+using Api.Security;
 using log4net;
 using System;
 using System.IO;
@@ -20,6 +21,11 @@ namespace Api
                 .ConfigurationFile));
             GlobalConfiguration.Configure(WebApiConfig.Register);
             ContainerConfig.Configure();
+        }
+
+        protected void Application_PreSendRequestHeaders(object sender, EventArgs e)
+        {
+            Secure.ProtectRequest();
         }
 
         /// <summary>

@@ -96,6 +96,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\Mappers\RequestsMapperTest.cs" />
     <Compile Include="Application\RequestsServiceTest.cs" />
     <Compile Include="Common\ConfigStrings\FormatterTest.cs" />
     <Compile Include="Common\ConfigStrings\MediaTypeTest.cs" />
@@ -110,6 +111,7 @@
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Web\Controllers\RequestsControllerTest.cs" />
+    <Compile Include="Web\Security\CspTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -123,6 +125,10 @@
     <ProjectReference Include="..\..\Console\RequestsSender\RequestsSender.csproj">
       <Project>{0E71E7A5-36A8-4CF1-AC34-6706D1FA9E79}</Project>
       <Name>RequestsSender</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\Application.Model\Application.Model.csproj">
+      <Project>{073687E4-E63C-494D-814F-AFD38CC16165}</Project>
+      <Name>Application.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Core\Application.Services.Interfaces\Application.Services.Interfaces.csproj">
       <Project>{B31A63D3-E00A-44F2-9BB4-2296659051BA}</Project>

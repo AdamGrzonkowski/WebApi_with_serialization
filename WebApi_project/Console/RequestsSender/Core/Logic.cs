@@ -1,5 +1,5 @@
-﻿using Bogus;
-using Domain.Model;
+﻿using Application.Model;
+using Bogus;
 using Helper.Common.ConfigStrings;
 using Helper.Common.Configuration;
 using Helper.Common.Http;
@@ -61,9 +61,9 @@ namespace RequestsSender.Core
             throw new InvalidOperationException("Argument invalid.");
         }
 
-        private static List<Request> GetFakeRequests(int count)
+        private static List<RequestModel> GetFakeRequests(int count)
         {
-            var fakeRequests = new Faker<Request>()
+            var fakeRequests = new Faker<RequestModel>()
                 .RuleFor(u => u.Name, f => f.Commerce.ProductName())
                 .RuleFor(u => u.Date, f => f.Date.Recent())
                 .RuleFor(u => u.Visits, f => f.Random.Int(0, 100));
