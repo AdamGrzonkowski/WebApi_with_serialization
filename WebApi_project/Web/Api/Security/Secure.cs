@@ -1,5 +1,4 @@
-﻿using log4net;
-using System.Web;
+﻿using System.Web;
 
 namespace Api.Security
 {
@@ -11,19 +10,13 @@ namespace Api.Security
     /// </remarks>
     public static class Secure
     {
-        private static readonly ILog _logger = LogManager.GetLogger(typeof(Secure));
-
         /// <summary>
         /// Run at Application_PreSendRequestHeaders event.
         /// </summary>
         public static void ProtectRequest()
         {
             HttpContext context = HttpContext.Current;
-            if (context == null)
-            {
-                _logger.Warn("Context was null while handling request.");
-            }
-            else
+            if (context != null)
             {
                 RemoveServerInfoFromResponseHeaders(context);
                 PreventXss(context);
