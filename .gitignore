@@ -328,3 +328,5 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+WebApi_project/Web/Api/Web.config
+WebApi_project/Web/Api/App_Data/*.xml
