@@ -8,13 +8,13 @@ namespace Test.Web.Security
         [Fact]
         public void CspRuleTest()
         {
-            Assert.Equal("default-src 'self'; style-src 'self'; frame-src 'self'; script-src 'self'; img-src 'self'; font-src 'self'", Csp.GetCspString());
+            Assert.Equal("default-src 'self'; style-src 'self' 'unsafe-inline'; frame-src 'self'; script-src 'self' 'sha256-NIDT1bUKf5Ez3feQSP65cgv5YGrWo7EEQjUGoP7TnLs='; img-src 'self'; font-src 'self'", Csp.GetCspString());
         }
 
         [Fact]
         public void StyleSheetsRuleTest()
         {
-            Assert.Equal("style-src 'self'", Csp.GetCspStyleSheetRule());
+            Assert.Equal("style-src 'self' 'unsafe-inline'", Csp.GetCspStyleSheetRule());
         }
 
         [Fact]
@@ -32,7 +32,7 @@ namespace Test.Web.Security
         [Fact]
         public void ScriptsRuleTest()
         {
-            Assert.Equal("script-src 'self'", Csp.GetCspScriptRule());
+            Assert.Equal("script-src 'self' 'sha256-NIDT1bUKf5Ez3feQSP65cgv5YGrWo7EEQjUGoP7TnLs='", Csp.GetCspScriptRule());
         }
 
         [Fact]

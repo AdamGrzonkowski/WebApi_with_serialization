@@ -25,7 +25,8 @@ namespace Api
 
         protected void Application_PreSendRequestHeaders(object sender, EventArgs e)
         {
-            Secure.ProtectRequest();
+            HttpApplication app = sender as HttpApplication;
+            Secure.ProtectRequest(app?.Context);
         }
 
         /// <summary>

@@ -38,7 +38,7 @@ namespace Api.Security
         /// </summary>
         public static string GetCspStyleSheetRule()
         {
-            return "style-src 'self'";
+            return "style-src 'self' 'unsafe-inline'"; // unsafe-inline required for swagger / jquery
         }
 
         /// <summary>
@@ -62,7 +62,8 @@ namespace Api.Security
         /// </summary>
         public static string GetCspScriptRule()
         {
-            return "script-src 'self'";
+            const string swaggerHash = "'sha256-NIDT1bUKf5Ez3feQSP65cgv5YGrWo7EEQjUGoP7TnLs='"; // ensures execution of signed scripts only
+            return $"script-src 'self' {swaggerHash}";
         }
 
         /// <summary>
